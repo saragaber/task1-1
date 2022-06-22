@@ -1,0 +1,25 @@
+clear
+echo "----------write a message to stdout like: the $ID of $EMAIL is even|odd number--------"
+awk '{print $2,$3}' users>output  #users file contains the data of users
+#length=`cat output|wc -l`
+for i in {1..5}
+do
+EMAIL=`sed -n ''$i'p' output|awk '{print $1}'`
+ID=`sed -n ''$i'p' output|awk '{print $2}'`
+regex="^[a-z0-9!#\$%&'*+/=?^_\`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?\$"
+if [[ $EMAIL =~ $regex ]] ; then
+    if [ -z "$ID" ]
+      then
+          continue
+    else
+     if [ $((ID%2)) -eq 0 ]
+      then
+        echo "$ID of $EMAIL is even number"
+     else
+        echo "$ID of $EMAIL is odd number"
+      fi
+    fi
+else
+    continue
+fi
+done
